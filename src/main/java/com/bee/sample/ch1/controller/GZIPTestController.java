@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ public class GZIPTestController {
 
     /**
      * 不压缩接口
+     *
      * @return String返回
      */
     @RequestMapping("/unGzip.html")
@@ -29,6 +29,7 @@ public class GZIPTestController {
 
     /**
      * 压缩接口
+     *
      * @param response 响应
      */
     @RequestMapping("/gzip.html")
@@ -36,24 +37,28 @@ public class GZIPTestController {
         List<Student> list = creatValue();
         String str = JSONObject.toJSONString(list);
         String encoding = "UTF-8";
-        byte[] comp = compress(str, encoding);
-        String compressType = "gzip";
-        response.setHeader(HttpHeaders.CONTENT_ENCODING, compressType);
-        response.setContentType(encoding);
-        response.setContentLength(comp.length);
         try {
+            byte[] comp = compress(str, encoding);
+            //byte[] comp = compress(str.getBytes());
+            String compressType = "gzip";
+            response.setHeader(HttpHeaders.CONTENT_ENCODING, compressType);
+            response.setContentLength(comp.length);
+            // response.setContentType(encoding);
+            response.setContentType("text/plain;charset=utf-8");
+
             OutputStream out = response.getOutputStream();
             out.write(comp);
             out.flush();
             out.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
      * GZIP压缩方法
-     * @param str 需要压缩的字符串
+     *
+     * @param str      需要压缩的字符串
      * @param encoding 编码格式
      * @return 返回byte[]
      */
@@ -62,19 +67,43 @@ public class GZIPTestController {
             return null;
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        GZIPOutputStream gzip;
         try {
-            gzip = new GZIPOutputStream(out);
+            GZIPOutputStream gzip = new GZIPOutputStream(out);
             gzip.write(str.getBytes(encoding));
+            gzip.finish();
+            byte[] outbyte = out.toByteArray();
             gzip.close();
+            out.close();
+            return outbyte;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return out.toByteArray();
+        return null;
+    }
+
+    /**
+     * 压缩
+     *
+     * @param data 需要压缩的数据
+     * @return 压缩后的数据
+     * @throws Exception io异常
+     */
+    private byte[] compress(byte[] data) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // 压缩
+        GZIPOutputStream gos = new GZIPOutputStream(baos);
+        int off = 0;
+        gos.write(data, off, data.length);
+        gos.finish();
+        byte[] output = baos.toByteArray();
+        baos.flush();
+        baos.close();
+        return output;
     }
 
     /**
      * 创建测试对象
+     *
      * @return 测试对象List
      */
     private List<Student> creatValue() {
