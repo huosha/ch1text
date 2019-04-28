@@ -19,15 +19,10 @@ public class RoleAccessConfig {
             }
         }
         // 继续处理原有调用
-        Object o = pjp.proceed();
-        return o;
+        return pjp.proceed();
     }
 
     protected boolean canAccess(String functionName) {
-        if (functionName == null || functionName.length() == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return functionName == null || functionName.length() == 0;
     }
 }
