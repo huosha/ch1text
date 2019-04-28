@@ -1,11 +1,16 @@
 package com.bee.sample.ch1.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
+
 import java.util.Objects;
 
+@JSONType(orders = {"id", "name", "sex", "imagePath"})// 转FastJson时按照此顺序排序，默认按照字母排序
 public class Student {
     private String name;
     private String id;
     private int sex;
+    @JSONField(serialize = false)// 转FastJson时忽略此参数
     private String imagePath;
 
     public String getName() {
