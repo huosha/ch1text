@@ -9,9 +9,19 @@ import java.util.Objects;
 public class Student {
     private String name;
     private String id;
-    private int sex;
+    private Integer sex;
     @JSONField(serialize = false)// 转FastJson时忽略此参数
     private String imagePath;
+
+    public Student(String name, String id, Integer sex) {
+        this.name = name;
+        this.id = id;
+        this.sex = sex;
+    }
+
+    public Student() {
+
+    }
 
     public String getName() {
         return name;
@@ -29,11 +39,11 @@ public class Student {
         this.id = id;
     }
 
-    public int getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 
