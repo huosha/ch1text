@@ -11,19 +11,19 @@ import java.util.List;
 
 @Controller
 public class HelloworldController {
-    @RequestMapping("/say")
+    @RequestMapping("/say.html")
     public @ResponseBody
     String say() {
         return "Hello Spring Boot";
     }
 
-    @RequestMapping("/hello")
+    @RequestMapping("/sayhello.html")
     public @ResponseBody
     String say(String name) {
         return "hello " + name;
     }
 
-    @RequestMapping("/user")
+    @RequestMapping("/adduser.html")
     @Function("user.add")
     public @ResponseBody
     String addUser(String name) {
