@@ -12,7 +12,7 @@ public class JsonUtil {
         String name = "123";
         String id = "1";
         Integer sex = 1;
-        list.add(new Student(name,id,sex));
+        list.add(new Student(name, id, sex));
         list.add(new Student());
         list.add(new Student());
         list.add(new Student());
