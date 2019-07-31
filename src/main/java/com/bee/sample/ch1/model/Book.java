@@ -12,6 +12,11 @@ public class Book {
     public Book() {
     }
 
+    public Book(String name, String version) {
+        this.name = name;
+        this.version = version;
+    }
+
     public Book(String name, Integer id, Date time, String version) {
         this.name = name;
         this.id = id;
@@ -57,10 +62,11 @@ public class Book {
         return "Book{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
-                ", time=" + sdf.format(time) +
+               // ", time=" + sdf.format(time) +
                 ", version='" + version + '\'' +
                 '}';
     }
+
 
 
 }
