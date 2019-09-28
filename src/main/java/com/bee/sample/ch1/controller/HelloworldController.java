@@ -14,6 +14,11 @@ public class HelloworldController {
     @RequestMapping("/say.html")
     public @ResponseBody
     String say() {
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "Hello Spring Boot";
     }
 
