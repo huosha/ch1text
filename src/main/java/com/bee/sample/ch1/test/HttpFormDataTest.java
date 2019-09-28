@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -28,8 +27,9 @@ public class HttpFormDataTest {
     private static final Logger log = LoggerFactory.getLogger(HttpFormDataTest.class);
 
     public static void main(String[] args) {
-        Map<String,Object> resultMap = new HashMap<String,Object>();
-        Map<String,String> postParam = new HashMap<String,String>();
+        int initialCapacity = 16;
+        Map<String,Object> resultMap = new HashMap<>(initialCapacity);
+        Map<String,String> postParam = new HashMap<>(initialCapacity);
         postParam.put("Serv_Tp","ZF");
         postParam.put("CCB_IBSVersion","V6");
         postParam.put("Chnl_TpCd","H1");
@@ -92,14 +92,14 @@ public class HttpFormDataTest {
                 //销毁
                 EntityUtils.consume(resEntity);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("Exception{}",e);
             } finally {
                 response.close();
             }
         } catch (ClientProtocolException e1) {
-            e1.printStackTrace();
+            log.error("ClientProtocolException{}",e1);
         } catch (IOException e1) {
-            e1.printStackTrace();
+            log.error("IOException{}",e1);
         } finally{
             try {
                 httpClient.close();
