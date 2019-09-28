@@ -2,12 +2,14 @@ package com.bee.sample.ch1.controller;
 
 import com.bee.sample.ch1.config.Function;
 import com.bee.sample.ch1.model.Student;
+import com.bee.sample.ch1.test.HttpFormDataTest;
 import com.bee.sample.ch1.until.JsonUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HelloworldController {
@@ -40,4 +42,12 @@ public class HelloworldController {
     List<Student> checkList() {
         return JsonUtil.checkResult();
     }
+
+    @RequestMapping("/fordata.html")
+    public @ResponseBody
+    String testFormData() {
+        Map<String, Object> test = HttpFormDataTest.test();
+        return test.toString();
+    }
+
 }
