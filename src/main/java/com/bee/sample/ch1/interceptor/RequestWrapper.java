@@ -1,7 +1,5 @@
 package com.bee.sample.ch1.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
-
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +12,6 @@ import java.io.*;
  * @author zangdaiyang
  * @since 2019.11.08
  */
-@Slf4j
 public class RequestWrapper extends HttpServletRequestWrapper {
     private static final int BUFFER_LEN = 128;
 

@@ -5,14 +5,17 @@ import com.alibaba.fastjson.TypeReference;
 import com.bee.sample.ch1.interceptor.Constants;
 import com.bee.sample.ch1.interceptor.MD5Utils;
 import com.bee.sample.ch1.interceptor.ResultInfo;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import okhttp3.*;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -30,12 +33,39 @@ public class TestController {
 
     @Test
     public void testClear() {
-        Map<String, String> request = new HashMap<>();
+        Map<String, Object> request = new HashMap<>();
         request.put(Constants.SIGN_ORIGIN_KEY, "1");
-        request.put(Constants.SIGN_KEY, MD5Utils.stringToMD5(request));
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        request.put("list",list.toString());
+//        byte[] bytes = readFromByteFile("C:/aow_drv.log");
+//        String encode = Base64.encode(bytes);
+//        request.put("file", encode);
+        request.put(Constants.SIGN_KEY, MD5Utils.creatSign(request));
         ResultInfo resultInfo = restTemplate.postForObject(URL_PREFIX + "/clear", request, ResultInfo.class);
         Assert.isTrue(resultInfo.getCode() == 0, "Query Failed");
     }
+
+    public byte[] readFromByteFile(String pathname) {
+        byte[] content = new byte[0];
+        try {
+            File filename = new File(pathname);
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(filename));
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+            byte[] temp = new byte[1024];
+            int size = 0;
+            while((size = in.read(temp)) != -1){
+                out.write(temp, 0, size);
+            }
+            in.close();
+            content = out.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
 
     @Test
     public void testPost() throws IOException {

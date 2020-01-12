@@ -1,5 +1,6 @@
 package com.bee.sample.ch1.interceptor;
 
+import com.bee.sample.ch1.i18n.ErrorFactory;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -17,7 +18,7 @@ public class HttpServletFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        ErrorFactory.initMessageSource();
     }
 
     @Override
